@@ -12,7 +12,11 @@ def WaitForElement(webdriver, path):
     while (c < limit):
         try:
             print "Waiting... " + str(c)
+<<<<<<< HEAD
             yes = webdriver.find_element_by_xpath(path)
+=======
+            webdriver.find_element_by_xpath(path)
+>>>>>>> d68d42d7291e3f75acddf383b3e1b3b54c1d948f
             print "Found!"
             return 1
         except:
@@ -22,7 +26,10 @@ def WaitForElement(webdriver, path):
     print "The element hasn't been found."
     return 0
 
+<<<<<<< HEAD
 items = {"kucni-ljubimci": 467}
+=======
+>>>>>>> d68d42d7291e3f75acddf383b3e1b3b54c1d948f
 """Don't download images"""
 firefoxProfile = FirefoxProfile()
 firefoxProfile.set_preference('permissions.default.stylesheet', 2)
@@ -31,11 +38,16 @@ firefoxProfile.set_preference('dom.ipc.plugins.enabled.libflashplayer.so',
                               'false')
 browser = webdriver.Firefox(firefoxProfile)
 i = 1
+<<<<<<< HEAD
 browser.get('http://online.konzum.hr/#!/categories/60005258/sve-za-dom?show=all&sort_field=name&sort=nameAsc&max_price=300&page={0}&per_page=467'.format(str(i)))
+=======
+browser.get('http://online.konzum.hr/#!/categories/60005258/sve-za-dom?show=all&sort_field=name&sort=nameAsc&max_price=300&page={0}&per_page=481'.format(str(i)))
+>>>>>>> d68d42d7291e3f75acddf383b3e1b3b54c1d948f
 WaitForElement(browser, "//*[contains(text(), 'Kn/Ko')]")
 
 soup = BeautifulSoup(browser.page_source)
 browser.close()
+<<<<<<< HEAD
 f = open('novi-ljubimci.html', 'w')
 f.write(browser.page_source.encode('utf-8'))
 f.close()
@@ -47,4 +59,11 @@ for item, price, url in zip(soup.select('span[itemprop]'),
     print item.text + " " + price.text + "\n"
     f.write((item.text + " " + price.text +
              " http://www.online.konzum.hr" + url['src'] + "\n").encode('utf-8'))
+=======
+
+f = open('kucni-ljubimci.txt', 'w')
+for item, price in zip(soup.select('span[itemprop]'), soup.select('.price')):
+    print item.text + " " + price.text + "\n"
+    f.write((item.text + " " + price.text + "\n").encode('utf-8'))
+>>>>>>> d68d42d7291e3f75acddf383b3e1b3b54c1d948f
 f.close()
