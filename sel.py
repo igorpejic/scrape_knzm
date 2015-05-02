@@ -2,7 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 from bs4 import BeautifulSoup
 import time
-import sys
 
 
 def WaitForElement(webdriver, path):
@@ -15,10 +14,9 @@ def WaitForElement(webdriver, path):
             webdriver.find_element_by_xpath(path)
             print "Found!"
             return 1
-        except:
+        except Exception:  # the most diabolical python antipattern
             time.sleep(inc)
             c = c + inc
-    print sys.exc_info()
     print "The element hasn't been found."
     return 0
 
@@ -37,11 +35,11 @@ WaitForElement(browser, "//*[contains(text(), 'Kn/Ko')]")
 soup = BeautifulSoup(browser.page_source)
 browser.close()
 
-f = open('kucni-ljubimci.txt', 'w')
-for item, price, url in zip(soup.select('span[itemprop]'),
-                            soup.select('.price'),
-                            soup.find_all('img')):
-    print item.text + " " + price.text + "\n"
-    f.write((item.text + " " + price.text +
-             " http://www.online.konzum.hr" + url['src'] + "\n").encode('utf-8'))
-
+with open('kucni-ljubimci.txt', 'w') as f:
+    for item, price, url in zip(soup.select('span[itemprop]'),
+                                soup.select('.price'),
+                                soup.find_all('img')):
+        print item.text + " " + price.text + "\n"
+        f.write((item.text + " " + price.text +
+                 " http://www.online.konzum.hr" + url['src'] +
+                 "\n").encode('utf-8'))
